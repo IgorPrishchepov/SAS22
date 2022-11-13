@@ -32,8 +32,9 @@ public class BacktestSessionController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> PostOne([FromBody] BacktestSession body)
     {
+        WorkflowAuditor.VerifyBacktestSessionToAdd(body);
         await Db.Connection.OpenAsync();
-        body.Db = Db;
+        body.Db = Db;       
         await body.InsertAsync();
         return new OkObjectResult(body);
     }
@@ -45,7 +46,22 @@ public class BacktestSessionController : ControllerBase
         await Db.Connection.OpenAsync();      
         var api = new BacktestSessionApi(Db);
         var result = await api.FindOneAsync(sessionId);
+        if (result is null)
+            return new NotFoundResult();
         await result.DeleteAsync();
         return new OkResult();
+    }
+
+    // PUT api/backtestsession/{session id}
+    [HttpPut]
+    public async Task<IActionResult> PutOne(int sessionId, [FromBody] BacktestSession body)
+    {
+        await Db.Connection.OpenAsync();
+        var api = new BacktestSessionApi(Db);
+        var result = await api.FindOneAsync(sessionId);
+        if (result is null)
+            return new NotFoundResult();
+        await body.InsertAsync();
+        return new OkObjectResult(body);
     }
 }
