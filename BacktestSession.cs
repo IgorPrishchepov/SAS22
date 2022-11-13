@@ -15,6 +15,10 @@ public class BacktestSession
 
     internal AppDb Db { get; set; }
 
+    public BacktestSession()
+    {
+    }
+
     public BacktestSession(AppDb db)
     {
         Db = db;
@@ -23,7 +27,7 @@ public class BacktestSession
     public async Task InsertAsync()
     {
         using var cmd = Db.Connection.CreateCommand();
-        cmd.CommandText = "INSERT INTO 'ipfx_backtesting.backtest_session' ('SessionId', 'TestDate', 'Pair', 'TestPeriod', 'TestType', 'SettingsId', 'IsActive')" +
+        cmd.CommandText = "INSERT INTO ipfx_backtesting.backtest_session (SessionId, TestDate, Pair, TestPeriod, TestType, SettingsId, IsActive)" +
             "VALUES (@sessionId, @testDate, @pair, @testPeriod, @testType, @settingsId, @isActive);";
         BindParams(cmd);
         await cmd.ExecuteNonQueryAsync();        
@@ -66,14 +70,7 @@ public class BacktestSession
             ParameterName = "@pair",
             DbType = DbType.String,
             Value = Pair,
-        });
-
-        cmd.Parameters.Add(new MySqlParameter
-        {
-            ParameterName = "@testPeriod",
-            DbType = DbType.Int16,
-            Value = TestPeriod,
-        });
+        }); 
 
         cmd.Parameters.Add(new MySqlParameter
         {

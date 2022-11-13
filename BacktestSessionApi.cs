@@ -4,11 +4,11 @@ using System.Data.Common;
 
 namespace SAS22
 {
-    public class BacktestSessionQuery
+    public class BacktestSessionApi
     {
         public AppDb Db { get; }
 
-        public BacktestSessionQuery(AppDb db)
+        public BacktestSessionApi(AppDb db)
         {
             Db = db;
         }
@@ -25,22 +25,7 @@ namespace SAS22
             });
             var result = await ReadAllAsync(await cmd.ExecuteReaderAsync());
             return result.Count > 0 ? result[0] : null;
-        }
-
-        public async Task DeleteOneAsync(int sessionId)
-        {
-            using var txn = await Db.Connection.BeginTransactionAsync();
-            using var cmd = Db.Connection.CreateCommand();
-            cmd.CommandText = @"SELECT * FROM ipfx_backtesting.backtest_session WHERE SessionId = @sessionId;";
-            cmd.Parameters.Add(new MySqlParameter
-            {
-                ParameterName = "@sessionId",
-                DbType = DbType.Int64,
-                Value = sessionId
-            });
-            await cmd.ExecuteNonQueryAsync();
-            await txn.CommitAsync();
-        }
+        }       
 
         private async Task<List<BacktestSession>> ReadAllAsync(DbDataReader reader)
         {
@@ -51,7 +36,7 @@ namespace SAS22
                 {
                     var type = reader["IsActive"].GetType();
                     int? isActive;
-                    if (type == null)
+                    if (type.Name == "DBNull")
                     {
                         isActive = null;
                     }
