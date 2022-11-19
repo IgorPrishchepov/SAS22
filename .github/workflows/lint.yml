@@ -26,3 +26,4 @@ jobs:
         uses: wearerequired/lint-action@v2
         with:
           dotnet_format: true
+          continue_on_error: false
