@@ -52,7 +52,9 @@ jobs:
       run: gcloud auth configure-docker
       
     - name: Build and Push Container
+      
       run: |-
+        echo gcr.io/${{ env.PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
         docker build sas22\. -t gcr.io/${{ env.PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}  
         
