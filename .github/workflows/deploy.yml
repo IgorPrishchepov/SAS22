@@ -54,6 +54,7 @@ jobs:
       
        run: |-
         pwd
+        ls
         docker build . -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         
