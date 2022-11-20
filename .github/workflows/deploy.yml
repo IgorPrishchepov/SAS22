@@ -59,13 +59,5 @@ jobs:
         docker build . -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         
-     - name: Deploy to Cloud Run
-       id: sas22deploy
-       uses: google-github-actions/deploy-cloudrun@v0.4.0
-       with:
-         service: ${{ env.SERVICE }}
-         image: gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}  
-         region: ${{ env.REGION }}
-        
-     - name: Show Output
-       run: echo ${{ steps.sas22deploy.outputs.url }}
+     - name: Deploy to Cloud Run      
+       run: gcloud run deploy ${{ env.PROJECT_ID }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }} --region ${{ env.REGION }} --platform managed
