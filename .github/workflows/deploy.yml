@@ -53,8 +53,8 @@ jobs:
      - name: Build and Push Container
       
        run: |-
-        echo pwd
-        docker build sas22\. -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
+        pwd
+        docker build . -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         
      - name: Deploy to Cloud Run
