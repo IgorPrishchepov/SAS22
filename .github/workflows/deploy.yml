@@ -4,7 +4,7 @@
 name: .NET
 
 env:
-  PROJECT_ID: ${{ secrets.GCP_PROJECT }}
+  PROJECT_ID: sas22iproff
   SERVICE: sas22iproff-restapi          #google run service name
   REGION: us-central1
   
