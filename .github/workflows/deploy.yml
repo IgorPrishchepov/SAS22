@@ -32,8 +32,9 @@ jobs:
     - name: Build
       run: dotnet build --no-restore
     - name: Test
-      run: dotnet test --no-build --verbosity normal
-      run: echo gcr.io/${{ env.PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
+      run: |-
+        dotnet test --no-build --verbosity normal
+        echo gcr.io/${{ env.PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
       
       
   # deploy:
