@@ -36,9 +36,7 @@ jobs:
       
   deploy:
     
-    runs-on: ubuntu-latest   
-    env:
-      IMAGE_NAME: gcr.io/${{ env.PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}  
+    runs-on: ubuntu-latest      
      
     steps:
     - name: Checkout
@@ -55,15 +53,15 @@ jobs:
       
     - name: Build and Push Container
       run: |-
-        docker build sas22\. -t $IMAGE_NAME
-        docker push $IMAGE_NAME
+        docker build sas22\. -t gcr.io/${{ env.PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}
+        docker push gcr.io/${{ env.PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}  
         
     - name: Deploy to Cloud Run
       id: sas22deploy
       uses: google-github-actions/deploy-cloudrun@v0.4.0
       with:
         service: ${{ env.SERVICE }}
-        image: ${{ env.IMAGE_NAME }}
+        image: gcr.io/${{ env.PROJECT_ID }}/${{ secrets.GCP_APP_NAME }}  
         region: ${{ env.REGION }}
         
     - name: Show Output
