@@ -4,9 +4,10 @@
 name: .NET
 
 on:
-  push:   
-    branches:
-      - 'features/**'
+  #push:   
+    #branches:
+      
+      #- 'features/**'
   
 jobs:
   build:
