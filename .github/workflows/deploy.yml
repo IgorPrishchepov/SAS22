@@ -53,6 +53,7 @@ jobs:
      - name: Build and Push Container
       
        run: |-
+        cd SAS22
         pwd
         ls
         docker build . -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
