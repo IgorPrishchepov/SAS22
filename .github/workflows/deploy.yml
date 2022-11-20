@@ -39,6 +39,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+     - uses: actions/checkout@v3
      - name: Setup Cloud cli
        uses: google-github-actions/setup-gcloud@v1
        with:
@@ -52,6 +53,7 @@ jobs:
      - name: Build and Push Container
       
        run: |-
+        echo pwd
         docker build sas22\. -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         
