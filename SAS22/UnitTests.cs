@@ -3,9 +3,9 @@ using Xunit;
 
 namespace SAS22
 {
-    public class WFATests
+    public class UnitTests
     {
-        [Theory]
+        [Theory, Trait("Category", "UnitTest")]
         [MemberData(nameof(BacktestSessionsTestData))]
         public void BacktestSessionNegativeTests(BacktestSession backtestSession, string message)
         {
@@ -13,7 +13,7 @@ namespace SAS22
                 .Message.Contains(message).Should().BeTrue();          
         }
 
-        [Fact]
+        [Fact, Trait("Category", "UnitTest")]
         public void BacktestSessionHappyPathTest()
         {
             Action act = () => WorkflowAuditor.VerifyBacktestSessionToAdd(new BacktestSession
