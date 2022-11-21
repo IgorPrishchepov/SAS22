@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using Xunit;
 
 namespace SAS22
