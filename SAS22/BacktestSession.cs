@@ -100,4 +100,16 @@ public class BacktestSession
             Value = IsActive,
         });
     }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is BacktestSession session &&
+               SessionId == session.SessionId &&
+               TestDate == session.TestDate &&
+               Pair == session.Pair &&
+               TestPeriod == session.TestPeriod &&
+               TestType == session.TestType &&
+               SettingsId == session.SettingsId &&
+               IsActive == session.IsActive;
+    }
 }

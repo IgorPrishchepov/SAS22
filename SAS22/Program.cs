@@ -8,7 +8,17 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddTransient(_ => new AppDb(builder.Configuration["ConnectionStrings:DefaultConnection"]));
+builder.Services.AddTransient(_ =>
+    {
+        var environment = builder.Configuration["Environment"];
+
+        return environment switch
+        {
+            "default" => new AppDb(builder.Configuration["ConnectionStrings:LocalConnection"]),
+            "cloud" => new AppDb(builder.Configuration["ConnectionStrings:CloudConnection"]),
+            _ => null,
+        };            
+    });
 
 var app = builder.Build();
 

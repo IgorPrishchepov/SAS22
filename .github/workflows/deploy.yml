@@ -31,8 +31,8 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
+    - name: Unit Test
+      run: dotnet test --no-build --verbosity normal --filter 'Category=UnitTest'
       
   deploy:
     needs: build
@@ -61,3 +61,20 @@ jobs:
         
      - name: Deploy to Cloud Run      
        run: gcloud run deploy ${{ env.PROJECT_ID }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }} --region ${{ env.REGION }} --platform managed
+
+  apitests:
+    needs: deploy
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build --no-restore
+    - name: Api Test
+      run: dotnet test --no-build --verbosity normal --filter 'Category=ApiTest'
