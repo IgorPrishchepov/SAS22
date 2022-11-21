@@ -1,0 +1,17 @@
+{
+  "$schema": "https://raw.githubusercontent.com/reportportal/agent-net-xunit/master/src/ReportPortal.XUnitReporter/ReportPortal.config.schema",
+  "enabled": true,
+  "server": {
+    "url": "https://rp.epam.com/api/v1/",
+    "project": "ihar_pryshchepau_personal",
+    "authentication": {
+      "uuid": "8626018f-343a-4782-8b59-2aaaa308b464"
+    }
+  },
+  "launch": {
+    "name": "SAS22 CI/CD design",
+    "description": "no desc",
+    "debugMode": false,
+    "attributes": [ "t1", "os:win10" ]
+  }
+}
