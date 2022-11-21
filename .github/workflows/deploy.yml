@@ -76,5 +76,5 @@ jobs:
       run: dotnet restore
     - name: Build
       run: dotnet build --no-restore
-    - name: Unit Test
+    - name: Api Test
       run: dotnet test --no-build --verbosity normal --filter 'Category=ApiTest'
