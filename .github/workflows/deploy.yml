@@ -29,12 +29,11 @@ jobs:
         files: '/home/runner/work/SAS22/SAS22/SAS22/ReportPortal.config.json'
       env:
          server.authentication.uuid: ${{ secrets.RP_UUID }}
-    - name: Modify name of the appsettings.json
-      uses: maxgfr/github-change-json@main
+    - uses: microsoft/variable-substitution@v1 
       with:
-          key: 'ConnectionStrings.CloudConnection'
-          value: ${{ secrets.CONNECTION_STRING }}
-          path: /home/runner/work/SAS22/SAS22/SAS22/appsettings.json  
+        files: '/home/runner/work/SAS22/SAS22/SAS22/appsettings.json'
+      env:
+         ConnectionStrings.CloudConnection: ${{ secrets.CONNECTION_STRING }} 
       
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
