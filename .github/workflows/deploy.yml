@@ -24,11 +24,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3     
-    - uses: microsoft/variable-substitution@v1
+    - name: Modify name of the package.json
+      uses: maxgfr/github-change-json@main
       with:
-        files: 'sas22.sln'
-      env:
-        ConnectionStrings.CloudConnection: ${{ secrets.CONNECTION_STRING }}
+          key: 'ConnectionStrings.CloudConnection'
+          value: '{{ secrets.CONNECTION_STRING }}'
+          path: sas22/package.json
+          commit: true # it will commit the change
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
