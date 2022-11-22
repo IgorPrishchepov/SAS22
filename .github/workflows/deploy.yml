@@ -29,7 +29,10 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: |-
+        dotnet restore
+        pwd
+        ls
     - name: App Settings Variable Substitution
       uses: microsoft/variable-substitution@v1
       with:
