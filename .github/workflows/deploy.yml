@@ -29,15 +29,13 @@ jobs:
       with:
           key: 'ConnectionStrings.CloudConnection'
           value: ${{ secrets.CONNECTION_STRING }}
-          path: /home/runner/work/SAS22/SAS22/SAS22/appsettings.json
-          commit: false # it will commit the change     
+          path: /home/runner/work/SAS22/SAS22/SAS22/appsettings.json              
     - name: Modify name of the ReportPortal.config.json
       uses: maxgfr/github-change-json@main
       with:
           key: 'server.authentication.uuid'
           value: ${{ secrets.RP_UUID }}
-          path: /home/runner/work/SAS22/SAS22/SAS22/ReportPortal.config.json
-          commit: false # it will commit the change 
+          path: /home/runner/work/SAS22/SAS22/SAS22/ReportPortal.config.json        
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
