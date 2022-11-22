@@ -24,19 +24,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3     
-    - name: Modify name of the package.json
-      uses: maxgfr/github-change-json@main
-      with:
-          key: 'ConnectionStrings.CloudConnection'
-          value: '{{ secrets.CONNECTION_STRING }}'
-          path: appsettings.json
-          commit: true # it will commit the change
+    
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore      
+      run: |- 
+        pwd
+        dotnet restore      
     - name: Build
       run: dotnet build --no-restore
     - name: Unit Test
