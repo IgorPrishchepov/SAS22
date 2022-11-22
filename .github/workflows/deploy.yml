@@ -31,7 +31,7 @@ jobs:
     - name: Restore dependencies
       run: |-
         dotnet restore
-        pwd
+        cd SAS22
         ls
     - name: App Settings Variable Substitution
       uses: microsoft/variable-substitution@v1
