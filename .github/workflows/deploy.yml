@@ -29,7 +29,7 @@ jobs:
       with:
           key: 'ConnectionStrings.CloudConnection'
           value: '{{ secrets.CONNECTION_STRING }}'
-          path: sas22/package.json
+          path: package.json
           commit: true # it will commit the change
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
