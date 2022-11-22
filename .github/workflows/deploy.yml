@@ -24,7 +24,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3     
-    
+    - name: Modify name of the package.json
+      uses: maxgfr/github-change-json@main
+      with:
+          key: 'ConnectionStrings.CloudConnection'
+          value: ${{ secrets.CONNECTION_STRING }}
+          path: /home/runner/work/SAS22/SAS22/SAS22/appsettings.json
+          commit: true # it will commit the change
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
