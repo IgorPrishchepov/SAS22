@@ -6,8 +6,7 @@ name: .NET
 env:
   PROJECT_ID: sas22iproff
   SERVICE: sas22iproff-restapi          #google run service name
-  REGION: us-central1
-  
+  REGION: us-central1 
 
 on:
   push:   
@@ -24,12 +23,20 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: microsoft/variable-substitution@v1 
+      with:
+        files: '/home/runner/work/SAS22/SAS22/SAS22/ReportPortal.config.json'
+      env:
+         server.authentication.uuid: ${{ secrets.RP_UUID }}    
+      
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: |- 
+        pwd
+        dotnet restore      
     - name: Build
       run: dotnet build --no-restore
     - name: Unit Test
@@ -41,6 +48,11 @@ jobs:
     
     steps:
      - uses: actions/checkout@v3
+     - uses: microsoft/variable-substitution@v1 
+       with:
+        files: '/home/runner/work/SAS22/SAS22/SAS22/appsettings.json'
+       env:
+         ConnectionStrings.CloudConnection: ${{ secrets.CONNECTION_STRING }} 
      - name: Setup Cloud cli
        uses: google-github-actions/setup-gcloud@v0
        with:
@@ -69,6 +81,11 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
+    - uses: microsoft/variable-substitution@v1 
+      with:
+        files: '/home/runner/work/SAS22/SAS22/SAS22/ReportPortal.config.json'
+      env:
+         server.authentication.uuid: ${{ secrets.RP_UUID }}
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
