@@ -23,10 +23,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v3     
     - uses: microsoft/variable-substitution@v1
       with:
-        files: 'appsettings.json'
+        files: 'sas22/appsettings.json'
       env:
         ConnectionStrings.CloudConnection: ${{ secrets.CONNECTION_STRING }}
     - name: Setup .NET
