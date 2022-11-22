@@ -14,7 +14,7 @@ builder.Services.AddTransient(_ =>
 
         return environment switch
         {
-            "default" => new AppDb(builder.Configuration["ConnectionStrings:LocalConnection"]),
+            "default" => new AppDb(builder.Configuration["ConnectionStrings:DefaultConnection"]),
             "cloud" => new AppDb(builder.Configuration["ConnectionStrings:CloudConnection"]),
             _ => null,
         };            
