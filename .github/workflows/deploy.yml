@@ -83,6 +83,11 @@ jobs:
     
     steps:
     - uses: actions/checkout@v3
+    - uses: microsoft/variable-substitution@v1 
+      with:
+        files: '/home/runner/work/SAS22/SAS22/SAS22/ReportPortal.config.json'
+      env:
+         server.authentication.uuid: ${{ secrets.RP_UUID }}
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
