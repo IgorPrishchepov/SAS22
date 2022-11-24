@@ -6,7 +6,7 @@ name: .NET
 env:
   PROJECT_ID: sas22iproff
   SERVICE: sas22iproff   #google run service name
-
+  REGION: us-central1 
 
 on:
  push:  
