@@ -5,8 +5,8 @@ name: .NET
 
 env:
   PROJECT_ID: sas22iproff
-  SERVICE: sas22iproff-restapi          #google run service name STAGE
-  SERVICEPROD: sas22iproff-restapi-prod
+  SERVICE: sas22iproff          #google run service name STAGE
+  SERVICEPROD: sas22iproffprod
   REGION: us-central1 
 
 on:
