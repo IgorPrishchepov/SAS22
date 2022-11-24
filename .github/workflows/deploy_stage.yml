@@ -5,13 +5,16 @@ name: .NET
 
 env:
   PROJECT_ID: sas22iproff
-  SERVICE: sas22iproff-restapi          #google run service name
+  SERVICE: sas22iproff   #google run service name
   REGION: us-central1 
 
 on:
  push:  
    branches:
    - 'features/**' 
+   
+ pull_request:
+   branches: [ "master" ]
   
 jobs:
   sonarqube:
@@ -116,7 +119,7 @@ jobs:
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         
      - name: Deploy to Cloud Run      
-       run: gcloud run deploy ${{ env.PROJECT_ID }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }} --region ${{ env.REGION }} --platform managed
+       run: gcloud run deploy ${{ env.SERVICE }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }} --region ${{ env.REGION }} --platform managed
 
   apitests:
     needs: deploy
