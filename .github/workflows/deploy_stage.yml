@@ -9,9 +9,9 @@ env:
   REGION: us-central1 
 
 on:
- 
-  branches:
-    - 'features/**' 
+ push:  
+   branches:
+   - 'features/**' 
   
 jobs:
   sonarqube:
