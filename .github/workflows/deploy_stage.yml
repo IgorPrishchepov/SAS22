@@ -9,16 +9,54 @@ env:
   REGION: us-central1 
 
 on:
-  push:   
-    branches:
-      - 'features/**'
-      - 'master'
-  pull_request:
-    branches: [ "master" ]
+ 
+  branches:
+    - 'features/**' 
   
 jobs:
+  sonarqube:
+    name: Build and analyze
+    runs-on: windows-latest
+    steps:
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 1.11
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v1
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"IgorPrishchepov_SAS22" /o:"igorprishchepov" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          dotnet restore
+          dotnet build --no-restore
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"  
+  
   build:
-
+    needs: sonarqube
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +65,7 @@ jobs:
       with:
         files: '/home/runner/work/SAS22/SAS22/SAS22/ReportPortal.config.json'
       env:
-         server.authentication.uuid: ${{ secrets.RP_UUID }}    
+         server.authentication.uuid: ${{ secrets.RP_UUID }}   
       
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
@@ -39,6 +77,11 @@ jobs:
         dotnet restore      
     - name: Build
       run: dotnet build --no-restore
+    - name: Run linters
+      uses: wearerequired/lint-action@v2
+      with:
+        dotnet_format: true
+        continue_on_error: true
     - name: Unit Test
       run: dotnet test --no-build --verbosity normal --filter 'Category=UnitTest'
       
