@@ -10,8 +10,7 @@ env:
   REGION: us-central1 
 
 on:
- 
-push:  
+ push:  
    branches:
    - 'master' 
   
