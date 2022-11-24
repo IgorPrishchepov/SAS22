@@ -11,8 +11,9 @@ env:
 
 on:
  
-  pull_request:
-    branches: [ "master" ]
+push:  
+   branches:
+   - 'master' 
   
 jobs:
   sonarqube:
@@ -117,7 +118,7 @@ jobs:
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }}
         
      - name: Deploy to Cloud Run      
-       run: gcloud run deploy ${{ env.PROJECT_ID }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }} --region ${{ env.REGION }} --platform managed
+       run: gcloud run deploy ${{ env.SERVICE }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICE }} --region ${{ env.REGION }} --platform managed
 
   apitests:
     needs: deploy
@@ -171,5 +172,5 @@ jobs:
         docker build . -t gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICEPROD }}
         docker push gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICEPROD }}
         
-     - name: Deploy to Cloud Run      
-       run: gcloud run deploy ${{ env.PROJECT_ID }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICEPROD }} --region ${{ env.REGION }} --platform managed   
+     - name: Deploy to Cloud Run 
+       run: gcloud run deploy ${{ env.SERVICEPROD }} --image gcr.io/${{ env.PROJECT_ID }}/${{ env.SERVICEPROD }} --region ${{ env.REGION }} --platform managed   
